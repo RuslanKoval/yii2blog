@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
  */
 class SiteController extends Controller
 {
+    public $layout;
     /**
      * @inheritdoc
      */
@@ -60,6 +61,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        $this->layout = 'LoginLayouts';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
