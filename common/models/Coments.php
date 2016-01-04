@@ -15,6 +15,8 @@ use yii\db\ActiveRecord;
  */
 class Coments extends ActiveRecord
 {
+    public $postId;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +33,8 @@ class Coments extends ActiveRecord
         return [
             [['post_id'], 'integer'],
             [['create_as'], 'string'],
-            [['description'], 'string']
+            [['description'], 'string'],
+            [['post_id','create_as','description'], 'required'],
         ];
     }
 

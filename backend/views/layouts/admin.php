@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use kartik\sidenav\SideNav;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -179,6 +180,7 @@ AppAsset::register($this);
             </nav>
         </header>
 
+
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
@@ -188,7 +190,7 @@ AppAsset::register($this);
                         <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>Alexander Pierce</p>   
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -204,8 +206,10 @@ AppAsset::register($this);
                 </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
+
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -213,13 +217,16 @@ AppAsset::register($this);
                         <ul class="treeview-menu">
                             <li><a href="/post"><i class="fa fa-circle-o"></i> Post</a></li>
                             <li><a href="/category"><i class="fa fa-circle-o"></i> Category</a></li>
+                            <li><a href="/comments"><i class="fa fa-circle-o"></i> Comments</a></li>
                         </ul>
                     </li>
 
+
+
                     <li class="header">LABELS</li>
-                    <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-                    <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-                    <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+                    <li><a href="/post"><i class="fa fa-circle-o text-red"></i> <span>post</span></a></li>
+                    <li><a href="/category"><i class="fa fa-circle-o text-yellow"></i> <span>category</span></a></li>
+                    <li><a href="/comments"><i class="fa fa-circle-o text-aqua"></i> <span>comments</span></a></li>
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -431,12 +438,7 @@ AppAsset::register($this);
             </div>
         </aside>
         <div class="control-sidebar-bg"></div>
-
-
     </div>
-
-
-
     <?php $this->endBody() ?>
     </body>
     </html>

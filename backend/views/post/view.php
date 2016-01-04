@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Post */
+/* @var $model \common\models\Post */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
@@ -32,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'title',
+//            'id',
+//            'title',
             'discription:ntext',
-            'createad_at',
+//            'createad_at',
             [
                 'label'=>'Categories',
                 'format'=>'html',
@@ -49,14 +49,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <div class="post-form">
-        <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($coment, 'description')->textInput(['maxlength' => true]) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton($coment->isNewRecord ? 'Create' : 'Update', ['class' => $coment->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-        <?php ActiveForm::end(); ?>
-    </div>
 </div>

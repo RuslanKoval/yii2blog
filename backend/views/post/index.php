@@ -1,7 +1,11 @@
 <?php
 
+use kartik\sidenav\SideNav;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\jui\Accordion;
+use yii\jui\Tabs;
+
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,10 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+//            'id',
             'title',
-            'discription:ntext',
-            'createad_at',
+//            'discription:ntext',
+//            'createad_at',
             [
                 'label' => 'Категории',
                 'format' => 'raw',
@@ -44,5 +48,61 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'table table-striped table-bordered'
         ],
     ]); ?>
+
+
+<!-- --><?php
+//  echo Accordion::widget([
+//
+//
+//      'items' => [
+//          [
+//              'header' => 'Section 1',
+//             'content' => 'Mauris mauris ante, blandit et, ultrices a, suscipit eget...',
+//         ],
+//          [
+//              'header' => 'Section 2',
+//              'headerOptions' => ['tag' => 'h3'],
+//              'content' => 'Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus...',
+//              'options' => ['tag' => 'div'],
+//          ],
+//      ],
+//
+//
+//
+//
+//      'options' => ['tag' => 'div'],
+//      'itemOptions' => ['tag' => 'div'],
+//      'headerOptions' => ['tag' => 'h3'],
+//      'clientOptions' => ['collapsible' => false],
+//  ]);
+//?>
+<!---->
+<!--   --><?php
+//
+//  echo Tabs::widget([
+//      'items' => [
+//          [
+//              'label' => 'Tab one',
+//              'content' => 'Mauris mauris ante, blandit et, ultrices a, suscipit eget...',
+//          ],
+//          [
+//              'label' => 'Tab two',
+//              'content' => 'Sed non urna. Phasellus eu ligula. Vestibulum sit amet purus...',
+//              'options' => ['tag' => 'div'],
+//              'headerOptions' => ['class' => 'my-class'],
+//          ],
+//          [
+//              'label' => 'Tab with custom id',
+//              'content' => 'Morbi tincidunt, dui sit amet facilisis feugiat...',
+//              'options' => ['id' => 'my-tab'],
+//          ],
+//      ],
+//      'options' => ['tag' => 'div'],
+//      'itemOptions' => ['tag' => 'div'],
+//      'headerOptions' => ['class' => 'my-class'],
+//      'clientOptions' => ['collapsible' => false],
+//  ]);
+//?>
+
 
 </div>

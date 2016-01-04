@@ -12,7 +12,6 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -47,8 +46,13 @@ class PostController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find(),
         ]);
+
+        $post =  Post::find()->all();
+
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'post' => $post,
         ]);
     }
 
@@ -163,8 +167,6 @@ class PostController extends Controller
         $model = $this->findModel($id);
         $model->unlinkAll('categories', true);
         $model->delete();
-
-
         return $this->redirect(['index']);
     }
 

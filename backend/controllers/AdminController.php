@@ -8,6 +8,9 @@
 
 namespace backend\controllers;
 
+use common\models\Category;
+use common\models\Coments;
+use common\models\Post;
 use Yii;
 use yii\web\Controller;
 
@@ -19,6 +22,13 @@ class AdminController extends Controller
     {
         $this->layout = 'admin';
 
-        return $this->render('index');
+        $countPost = Post::find()->count();
+        $countComments = Coments::find()->count();
+        $countCategory = Category::find()->count();
+        return $this->render('index', [
+            'countPost' => $countPost,
+            'countComments' => $countComments,
+            'countCategory' => $countCategory,
+        ]);
     }
 }
