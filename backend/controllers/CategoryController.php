@@ -27,7 +27,13 @@ class CategoryController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'delete', 'update'],
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
+                    ],
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
                     ],
                 ],
             ],

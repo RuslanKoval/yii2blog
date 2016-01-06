@@ -8,6 +8,7 @@ use common\models\Category;
 use common\models\Coments;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
@@ -30,8 +31,14 @@ class PostController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'delete', 'update'],
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -104,25 +111,28 @@ class PostController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Post();
-        if ($model->load(Yii::$app->request->post())) {
-            $model->createad_at = time();
-            $model->save();
 
-            $data = Category::find()
-                ->where(['id' => $model->categoriesId])
-            ->all();
+        if (\Yii::$app->user->can('createPost')) {
+            $model = new Post();
+            if ($model->load(Yii::$app->request->post())) {
+                $model->createad_at = time();
+                $model->save();
 
-            foreach($data as $category) {
-                $category->link('posts', $model);
+                $data = Category::find()
+                    ->where(['id' => $model->categoriesId])
+                    ->all();
 
+                foreach($data as $category) {
+                    $category->link('posts', $model);
+
+                }
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model
+                ]);
             }
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model
-            ]);
         }
     }
 

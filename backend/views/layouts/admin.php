@@ -23,7 +23,7 @@ AppAsset::register($this);
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" >
+    <body class="hold-transition sidebar-mini skin-blue" >
     <?php $this->beginBody() ?>
 
     <div class="wrapper">
@@ -133,7 +133,7 @@ AppAsset::register($this);
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <span class="hidden-xs"><?php echo Yii::$app->user->identity->username;?></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -141,8 +141,7 @@ AppAsset::register($this);
                                     <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        <?php echo Yii::$app->user->identity->username;?>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -166,7 +165,7 @@ AppAsset::register($this);
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="/site/logout" data-method="post" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -190,7 +189,7 @@ AppAsset::register($this);
                         <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>   
+                        <p><?php echo Yii::$app->user->identity->username;?></p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -224,9 +223,10 @@ AppAsset::register($this);
 
 
                     <li class="header">LABELS</li>
-                    <li><a href="/post"><i class="fa fa-circle-o text-red"></i> <span>post</span></a></li>
-                    <li><a href="/category"><i class="fa fa-circle-o text-yellow"></i> <span>category</span></a></li>
-                    <li><a href="/comments"><i class="fa fa-circle-o text-aqua"></i> <span>comments</span></a></li>
+                    <li><a href="/post"><i class="fa fa-circle-o text-red"></i> <span>post manager</span></a></li>
+                    <li><a href="/category"><i class="fa fa-circle-o text-yellow"></i> <span>category manager</span></a></li>
+                    <li><a href="/comments"><i class="fa fa-circle-o text-aqua"></i> <span>comments manager</span></a></li>
+                    <li><a href="/users"><i class="fa fa-circle-o text-green"></i> <span>users manager</span></a></li>
                 </ul>
             </section>
             <!-- /.sidebar -->
