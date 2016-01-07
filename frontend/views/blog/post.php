@@ -1,41 +1,77 @@
+<?php
+
+use dosamigos\ckeditor\CKEditor;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\widgets\ListView;
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $cat yii\data\ActiveDataProvider */
+?>
+
+
 <div class="row">
     <div class="col-sm-3">
         <h2>Категории</h2>
-        <ul>
-            <?php
-            if(!empty($cat)){
-                foreach($cat as $value){
-                    echo "<li>";
-                    echo "<a href='/blog/cat/".$value['id']."'>".$value['name']."</a>";
-                    echo "</li>";
-                }
+        <?=
 
-            }else{
-                echo "<li>Записей нет!</li>";
+        ListView::widget([
+            'dataProvider' => $cat,
+            'itemView' => function($category) {
+                return $this->render('categoryItem', [
+                    'model' => $category,
+                ]);
             }
-
-            ?>
-        </ul>
+        ]); ?>
     </div>
     <div class="col-sm-9">
         <div class="row">
+
             <div class="col-sm-12">
-                <h2 class="text-center">
-                    <?php echo $post->title;?>
-                </h2>
-                <p> <?php echo $post->discription;?></p>
-            </div>
-            <div class="col-sm-12">
-                <h3>Коментарии</h3>
-                <?php
-                    if(!empty($comment)){
-                        echo $comment;
-                    }else{
-                        echo "Коментариев нет!";
+                <?= ListView::widget([
+                    'dataProvider' => $dataProvider,
+                    'itemView' => function($post) {
+                        $comentStr="";
+                        foreach($post->comments as $comment) {
+                                $comentStr.= "<p>".$comment->description."</p>";
+                                $comentStr.= "<h6> leave a comment : ".$comment->create_as."</h6><hr>";
+
+                        }
+                        return $this->render('commentsItem', [
+                            'model' => $post,
+                            'comments' => $comentStr
+                        ]);
                     }
-                ?>
+                ]); ?>
             </div>
         </div>
+
+        <?php
+        if (!Yii::$app->user->isGuest) {
+            ?>
+            <div class="row">
+
+                <div class="col-md-12 post-form">
+                    <?php $form = ActiveForm::begin(); ?>
+                    <?= $form->field($commentModel, 'description')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 4],
+                        'preset' => 'basic'
+                    ]) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton($commentModel->isNewRecord ? 'Добавить' : 'Update', ['class' => $commentModel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    </div>
+                    <?php ActiveForm::end(); ?>
+                </div>
+            </div>
+
+            <?php
+        }else{ ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Что-бы оставить коментарий нужно <?= Html::a('зарегистрироваться', ['site/login']);?>!</p>
+                </div>
+            </div>
+        <?php } ?>
     </div>
 </div>
-

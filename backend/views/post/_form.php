@@ -22,7 +22,7 @@ use kartik\select2\Select2;
         'preset' => 'basic'
     ]) ?>
     <?php
-        $list = common\models\Category::find()->all();
+        $list = common\models\Category::find()->where(['active' => true])->all();
         $result = ArrayHelper::map($list, 'id', 'name');
 
     ?>

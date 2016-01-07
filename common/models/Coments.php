@@ -34,7 +34,8 @@ class Coments extends ActiveRecord
             [['post_id'], 'integer'],
             [['create_as'], 'string'],
             [['description'], 'string'],
-            [['post_id','create_as','description'], 'required'],
+            [['post_id','create_as'], 'required'],
+            [['description'], 'required', 'message' => 'Пожайлуста заполните поле'],
         ];
     }
 
@@ -45,7 +46,7 @@ class Coments extends ActiveRecord
     {
         return [
             'post_id' => 'Post ID',
-            'description' => 'Coment',
+            'description' => 'Добавить новый коментарий',
             'create_as' => 'Create as',
         ];
     }

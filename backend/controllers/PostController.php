@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Post;
 use common\models\Category;
-use common\models\Coments;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -30,7 +29,7 @@ class PostController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'delete', 'update'],
+                        'actions' => ['index', 'view', 'create', 'delete', 'update', 'setactivity'],
                         'roles' => ['admin'],
                     ],
                 ],
@@ -52,6 +51,9 @@ class PostController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find(),
+            'sort' => [
+                'defaultOrder' => ['date_added' => SORT_DESC],
+            ]
         ]);
 
         $post =  Post::find()->all();
@@ -87,19 +89,9 @@ class PostController extends Controller
             $string.=  Html::a($value->name, ['category/view', 'id' => $value->id]);
             $string.='<br>';
         }
-
-        $coment = new Coments();
-        if ($coment->load(Yii::$app->request->post())) {
-            $coment->post_id = $id;
-            $coment->create_as = Yii::$app->user->identity->username;
-            $coment->save();
-            return $this->redirect(['view', 'id' => $id]);
-        }
-
         return $this->render('view', [
             'model' => $this->findModel($id),
             'string' => $string,
-            'coment' => $coment,
             'comentStr' => $comentStr
         ]);
     }
@@ -179,6 +171,23 @@ class PostController extends Controller
         $model->delete();
         return $this->redirect(['index']);
     }
+
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionSetactivity($id)
+    {
+        $model = $this->findModel($id);
+        if ($model) {
+            $model->active = !$model->active;
+            $model->save();
+        }
+        return $this->redirect('/post');
+    }
+
 
     /**
      * Finds the Post model based on its primary key value.

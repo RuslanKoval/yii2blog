@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "post".
@@ -13,13 +14,14 @@ use Yii;
  * @property string $createad_at
  * @property Category[] $categories
  * @property Coments[] $comments
+ * @property integer $active
  *
  *
  *
  */
-class Post extends \yii\db\ActiveRecord
+class Post extends ActiveRecord
 {
-    public $categoriesId;
+    public $categoriesId = 1;
 
     /**
      * @inheritdoc
@@ -53,6 +55,7 @@ class Post extends \yii\db\ActiveRecord
             'title' => 'Title',
             'discription' => 'Discription',
             'createad_at' => 'Createad At',
+            'active' => 'Active',
         ];
     }
 

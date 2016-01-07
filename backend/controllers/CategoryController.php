@@ -26,7 +26,7 @@ class CategoryController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'delete', 'update'],
+                        'actions' => ['index', 'view', 'create', 'delete', 'update', 'setactivity'],
                         'roles' => ['admin'],
                     ],
                     'verbs' => [
@@ -104,6 +104,17 @@ class CategoryController extends Controller
         }
     }
 
+    public function actionSetactivity($id)
+    {
+        $model = $this->findModel($id);
+        if ($model) {
+            $model->active = !$model->active;
+            $model->save();
+        }
+        return $this->redirect('/category');
+    }
+
+
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -112,9 +123,17 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        $model->active = false;
+        /** @var Post $post*/
+        if (!$model->active) {
+            foreach($model->getPostsOfThisCategoryOnly() as $post) {
+                $post->unlinkAll('categories', true);
+                $post->delete();
+            }
+            $model->save();
+        }
+        return $this->redirect(['/category']);
     }
 
     /**

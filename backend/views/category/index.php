@@ -21,12 +21,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            'active',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {setactivity}',
+                'buttons' => [
+                    'setactivity' => function ($url, $model, $key) {
+                        /** @var $model Post */
+                        return $model->active ?
+                            Html::a('<span class="glyphicon glyphicon-ban-circle"></span>', $url, ['title' => 'Deactivate']) :
+                            Html::a('<span class="glyphicon glyphicon-ok-circle"></span>', $url, ['title' => 'Activate']);
+                    },
+                ]
+            ]
         ],
     ]); ?>
+
 
 </div>

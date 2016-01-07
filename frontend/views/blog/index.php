@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
@@ -10,7 +11,7 @@ use yii\widgets\ListView;
 
 
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-3 category">
         <h2>Категории</h2>
 
         <?= ListView::widget([
@@ -29,7 +30,7 @@ use yii\widgets\ListView;
                 $categoryNames = [];
                 foreach($post->categories as $category) {
                     if ($category) {
-                        $categoryNames[] = $category->name;
+                        $categoryNames[] = Html::a($category->name, ['cat', 'id' => $category->id]);
                     }
                 }
                 return $this->render('postItem', [

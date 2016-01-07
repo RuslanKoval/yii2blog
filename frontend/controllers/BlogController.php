@@ -10,7 +10,9 @@ namespace frontend\controllers;
 
 
 use common\models\Category;
+use common\models\Coments;
 use common\models\Post;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -22,10 +24,13 @@ class BlogController  extends Controller
     public function actionIndex()
     {
         $dataCategory = new ActiveDataProvider([
-            'query' => Category::find(),
+            'query' => Category::find()->where(['active' => true]),
         ]);
         $dataPost = new ActiveDataProvider([
-            'query' => Post::find(),
+            'query' => Post::find()->where(['active' => true]),
+            'sort' => [
+                'defaultOrder' => ['date_added' => SORT_DESC],
+            ],
             'pagination' => [
                'pageSize' => 5,
              ],
@@ -41,15 +46,17 @@ class BlogController  extends Controller
     public function actionCat($id)
     {
         $dataCategory = new ActiveDataProvider([
-            'query' => Category::find(),
+            'query' => Category::find()->where(['active' => true]),
         ]);
         $category = Category::find()
             ->where(['id' => $id])
             ->one();
         $dataPost = new ActiveDataProvider([
-            'query' => $category->getPosts(),
+            'query' => $category->getPosts()->where(['active' => true]),
+            'sort' => [
+                'defaultOrder' => ['date_added' => SORT_DESC],
+            ],
         ]);
-
 
         return $this->render('categoryPost', [
             'cat' => $dataCategory,
@@ -59,27 +66,30 @@ class BlogController  extends Controller
 
     public function actionPost($id)
     {
-        $cat = Category::find()->all();
-        $data2 = ArrayHelper::toArray($cat, [
-            'common\models\Category' => [
-                'id',
-                'name'
+        $dataCategory = new ActiveDataProvider([
+            'query' => Category::find()->where(['active' => true]),
+        ]);
+        $dataPost = new ActiveDataProvider([
+            'query' => Post::find()
+                ->where(['id' => $id,  'active' => true]),
+            'sort' => [
+                'defaultOrder' => ['date_added' => SORT_DESC],
             ],
         ]);
 
-        $data = Post::find()
-            ->where(['id' => $id])
-            ->one();
-        $postComents = $data->comments;
-        $comentStr = "";
-        foreach($postComents as $key => $value) {
-            $comentStr.= "<p>".$value->description."</p>";
-            $comentStr.= "<h6> leave a comment : ".$value->create_as."</h6><hr>";
+        $commentModel = new Coments();
+        if (!Yii::$app->user->isGuest) {
+            if ($commentModel->load(Yii::$app->request->post())) {
+                $commentModel->post_id = $id;
+                $commentModel->create_as = Yii::$app->user->identity->username;
+                $commentModel->save();
+                return $this->redirect(['post', 'id' => $id]);
+            }
         }
         return $this->render('post', [
-            'cat' => $data2,
-            'post' => $data,
-            'comment' => $comentStr
+            'cat' => $dataCategory,
+            'dataProvider' => $dataPost,
+            'commentModel' => $commentModel,
         ]);
     }
 

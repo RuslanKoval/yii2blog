@@ -4,7 +4,7 @@ use common\models\Post;
 ?>
 
 <div class="paragraph">
-    <h3><a href="/blog/post/<?= $model->id ?>"><?= $model->title ?></a></h3>
+    <h2><a href="/blog/post/<?= $model->id ?>"><?= $model->title ?></a></h2>
     <p><?= $model->discription ?></p>
     <?php if (!empty($categoryNames)):?>
         <p><b>Категории</b>: <?= implode(', ', $categoryNames) ?></p>
