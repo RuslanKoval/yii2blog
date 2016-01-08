@@ -124,6 +124,7 @@ class CategoryController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+
         $model->active = false;
         /** @var Post $post*/
         if (!$model->active) {
@@ -133,6 +134,12 @@ class CategoryController extends Controller
             }
             $model->save();
         }
+        $data = $model->posts;
+
+        foreach($data as $post) {
+            $post->unlink('categories', $model, true);
+        }
+        $model->delete();
         return $this->redirect(['/category']);
     }
 

@@ -108,7 +108,6 @@ class PostController extends Controller
 
                 foreach($data as $category) {
                     $category->link('posts', $model);
-
                 }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
