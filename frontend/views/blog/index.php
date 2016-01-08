@@ -29,7 +29,7 @@ use yii\widgets\ListView;
             'itemView' => function($post) {
                 return $this->render('postItem', [
                     'model' => $post,
-                    'categoryNames' => $post->allCategories()
+                    'categoryNames' => $post->allCategories('cat')
                 ]);
             }
         ]); ?>

@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label'=>'Категории',
                 'format'=>'html',
-                'value'=> $model->allCategories()
+                'value'=> $model->allCategories('category/view')
             ],
             [
                 'label' => 'Коментарии',

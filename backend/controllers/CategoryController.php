@@ -129,13 +129,16 @@ class CategoryController extends Controller
         /** @var Post $post*/
         if (!$model->active) {
             foreach($model->getPostsOfThisCategoryOnly() as $post) {
+                $allComment = $post->comments;
+                foreach($allComment as $comment){
+                    $comment->delete();
+                }
                 $post->unlinkAll('categories', true);
                 $post->delete();
             }
             $model->save();
         }
         $data = $model->posts;
-
         foreach($data as $post) {
             $post->unlink('categories', $model, true);
         }

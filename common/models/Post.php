@@ -66,23 +66,25 @@ class Post extends ActiveRecord
         foreach($this->comments as $key => $value) {
             $user = \common\models\User::find()->where(['id' => $value->create_as])->one();
             $string.= "<p>".$value->description."</p>";
-            $string.= "<h6> leave a comment : ".$user->username."</h6><hr>";
+            $string.= "<h6> автор : ".$user->username."</h6><hr>";
         }
 
         return $string;
     }
 
-    public function allCategories()
+    public function allCategories($link)
     {
         $string = "";
         foreach($this->categories as $category) {
             if ($category) {
-                $string[] = Html::a($category->name, ['cat', 'id' => $category->id]);
+                $string[] = Html::a($category->name, [$link, 'id' => $category->id]);
             }
         }
 
         return implode(', ', $string);
     }
+
+
 
     public function getCategories()
     {
