@@ -32,20 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//            'id',
-//            'title',
             'discription:ntext',
-//            'createad_at',
             [
-                'label'=>'Categories',
+                'label'=>'Категории',
                 'format'=>'html',
-                'value'=> $string
+                'value'=> $model->allCategories()
             ],
             [
-                'label'=>'Coments',
-                'format'=>'html',
-                'value'=> $comentStr
-            ]
+                'label' => 'Коментарии',
+                'format' => 'raw',
+                'value' => $model->allComments()
+            ],
         ],
     ]) ?>
 

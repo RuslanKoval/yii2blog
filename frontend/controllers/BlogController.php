@@ -81,7 +81,7 @@ class BlogController  extends Controller
         if (!Yii::$app->user->isGuest) {
             if ($commentModel->load(Yii::$app->request->post())) {
                 $commentModel->post_id = $id;
-                $commentModel->create_as = Yii::$app->user->identity->username;
+                $commentModel->create_as = Yii::$app->user->identity->getId();
                 $commentModel->save();
                 return $this->redirect(['post', 'id' => $id]);
             }

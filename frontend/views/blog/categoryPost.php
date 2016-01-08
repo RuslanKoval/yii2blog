@@ -27,15 +27,10 @@ use yii\widgets\ListView;
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => function($post) {
-                $categoryNames = [];
-                foreach($post->categories as $category) {
-                    if ($category) {
-                        $categoryNames[] = Html::a($category->name, ['cat', 'id' => $category->id]);
-                    }
-                }
+
                 return $this->render('postItem', [
                     'model' => $post,
-                    'categoryNames' => $categoryNames
+                    'categoryNames' => $post->allCategories()
                 ]);
             }
         ]); ?>

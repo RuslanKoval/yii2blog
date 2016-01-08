@@ -32,15 +32,9 @@ use yii\widgets\ListView;
                 <?= ListView::widget([
                     'dataProvider' => $dataProvider,
                     'itemView' => function($post) {
-                        $comentStr="";
-                        foreach($post->comments as $comment) {
-                                $comentStr.= "<p>".$comment->description."</p>";
-                                $comentStr.= "<h6> leave a comment : ".$comment->create_as."</h6><hr>";
-
-                        }
                         return $this->render('commentsItem', [
                             'model' => $post,
-                            'comments' => $comentStr
+                            'comments' => $post->allComments()
                         ]);
                     }
                 ]); ?>

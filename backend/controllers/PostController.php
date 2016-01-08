@@ -73,16 +73,9 @@ class PostController extends Controller
     public function actionView($id)
     {
         /** @var Post $data */
-        $data = Post::find()
-            ->where(['id' => $id])
-            ->one();
+        $data = $this->findModel($id);
+
         $cat = $data->categories;
-        $postComents = $data->comments;
-        $comentStr = "";
-        foreach($postComents as $key => $value) {
-            $comentStr.= "<p>".$value->description."</p>";
-            $comentStr.= "<h6> leave a comment : ".$value->create_as."</h6><hr>";
-        }
 
         $string = "";
         foreach($cat as $value) {
@@ -90,9 +83,8 @@ class PostController extends Controller
             $string.='<br>';
         }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $data,
             'string' => $string,
-            'comentStr' => $comentStr
         ]);
     }
 

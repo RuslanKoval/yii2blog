@@ -22,9 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'create_as',
             'description:ntext',
-            ['class' => 'yii\grid\ActionColumn','header'=>'Действие'],
+            [
+                'label' => 'Автор',
+                'format' => 'raw',
+                'value' => function(\common\models\Coments $model){
+                    $user = \common\models\User::find()->where(['id' => $model->create_as])->one();
+                    $result = $user->username;
+                    return $result;
+                }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete} ',
+            ]
         ],
 
         'tableOptions' => [

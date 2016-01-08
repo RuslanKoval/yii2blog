@@ -37,8 +37,6 @@ class CommentsController extends Controller
             ],
         ];
     }
-
-
     /**
      * @return string
      */
@@ -57,7 +55,7 @@ class CommentsController extends Controller
     {
         $model = new Coments();
         if ($model->load(Yii::$app->request->post())) {
-            $model->create_as = Yii::$app->user->identity->username;
+            $model->create_as = Yii::$app->user->identity->getId();
             $model->post_id = $model->post_id;
             $model->save();
 
@@ -77,7 +75,7 @@ class CommentsController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-            $model->create_as = Yii::$app->user->identity->username;
+            $model->create_as = Yii::$app->user->identity->getId();
             $model->post_id = $model->post_id;
             $model->save();
             $dataProvider = new ActiveDataProvider([
@@ -105,8 +103,6 @@ class CommentsController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
 
     protected function findModel($id)
     {

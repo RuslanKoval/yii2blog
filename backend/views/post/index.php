@@ -25,7 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'title',
-            'active',
+            [
+                'label'=>'Опубликовать',
+                'format'=>'html',
+                'value'=> function($model){
+                    return $model->active ? 'Да' : 'Нет';
+                },
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete} {setactivity}',
