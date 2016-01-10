@@ -27,11 +27,13 @@ class AdminController extends Controller
         $countComments = Coments::find()->count();
         $countCategory = Category::find()->count();
         $countUser = User::find()->count();
+        $countActiveUser = User::find()->where(['active' => true])->count();
         return $this->render('index', [
             'countPost' => $countPost,
             'countComments' => $countComments,
             'countCategory' => $countCategory,
             'countUser' => $countUser,
+            'countActiveUser' => $countActiveUser,
         ]);
     }
 }

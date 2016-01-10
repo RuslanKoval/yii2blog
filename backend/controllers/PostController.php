@@ -141,6 +141,7 @@ class PostController extends Controller
                 $category->link('posts', $model);
             }
             $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
