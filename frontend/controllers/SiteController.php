@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -12,6 +13,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -72,7 +74,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+//        return $this->render('index');
+        return $this->redirect(['/blog']);
     }
 
     /**
@@ -80,14 +83,20 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $model->load(Yii::$app->request->post());
+        /** @var User $user*/
+        $user = User::findOne(['username' => $model->username]);
+        if ($user && !$user->active) {
+            return $this->render('noActive');
+        }
+        if ($user && $model->login()) {
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -95,6 +104,10 @@ class SiteController extends Controller
             ]);
         }
     }
+
+
+
+
 
     /**
      * Logs out the current user.
@@ -151,16 +164,30 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+                return $this->render('noActive');
             }
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);
     }
+
+
+    public function actionActivated()
+    {
+        /** @var User $user */
+        $user = User::findOne([
+            'active_key' => Yii::$app->request->getQueryParam('key'),
+            'active' => false
+        ]);
+        if ($user) {
+            $user->active = true;
+            $user->save();
+            return $this->render('activation');
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
 
     /**
      * Requests password reset.
