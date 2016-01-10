@@ -93,6 +93,30 @@ class BlogController  extends Controller
         ]);
     }
 
+    public function actionCreate()
+    {
 
+        if (\Yii::$app->user->can('createPost')) {
+            $model = new Post();
+            if ($model->load(Yii::$app->request->post())) {
+                $model->createad_at = time();
+                $model->save();
+
+                $data = Category::find()
+                    ->where(['id' => $model->categoriesId])
+                    ->all();
+
+                foreach($data as $category) {
+                    $category->link('posts', $model);
+                }
+                $model->save();
+                return $this->redirect(['/blog']);
+            } else {
+                return $this->render('create/create', [
+                    'model' => $model
+                ]);
+            }
+        }
+    }
 
 }

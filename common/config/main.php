@@ -8,6 +8,9 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager'
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

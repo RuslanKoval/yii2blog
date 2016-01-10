@@ -6,7 +6,6 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-
 /**
  * User model
  *
@@ -60,7 +59,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE, 'active' => true]);
     }
 
     /**
@@ -79,7 +78,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE, 'active' => true]);
     }
 
     /**
@@ -97,6 +96,7 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
+            'active' => true
         ]);
     }
 
@@ -184,5 +184,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function sendEmail()
+    {
+        $this->active_key = Yii::$app->security->generateRandomString() . '_' . time();
+        Yii::$app->mailer
+            ->compose('activatedUser', [
+                'confirmationKey' => $this->active_key
+            ])
+            ->setFrom('koval_ruslan2@mail.ru')
+            ->setTo($this->email)
+            ->setSubject('Please confirm your email address' )
+            ->send();
     }
 }

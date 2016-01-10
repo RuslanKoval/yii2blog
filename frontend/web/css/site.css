@@ -118,6 +118,8 @@ h2 a{
     color: #fff;
     text-decoration: none;
 }
-.category{
-
+.bs-example-bg-classes p{
+    padding: 15px;
+    font-size: 21px;
+    text-align: center;
 }
